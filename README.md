@@ -1,2 +1,2 @@
 # SexTL
- Custom STL implementation written in C++20
+ Custom STL implementation written (poorly?) in C++20
