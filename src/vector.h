@@ -48,6 +48,11 @@ namespace sextl
             return this->m_elements + (this->m_size/sizeof(T));
         }
 
+        constexpr size_t size()
+        {
+            return (this->m_size/sizeof(T));
+        }
+
         constexpr void clear()
         {
             memset(this->m_elements, NULL, this->m_size);

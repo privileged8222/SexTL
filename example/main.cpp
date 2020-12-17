@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../src/vector.h"
+#include "../src/string.h"
 
 int main() {
     {
@@ -21,6 +22,13 @@ int main() {
             std::cout << x << std::endl;
         }
         test.free();
+    }
+
+    {
+        sextl::string s = "1234567890";
+        s.append(" test");
+        std::cout << s.raw() << std::endl;
+        std::cout << "String length: " << s.length() << std::endl;
     }
 
     return 0;
