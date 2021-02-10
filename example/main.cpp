@@ -1,35 +1,20 @@
 #include <iostream>
-#include "../src/vector.h"
+#include <vector>
 #include "../src/string.h"
+#include "../src/collection.h"
 
 int main() {
-    {
-        sextl::vector<int> test = {10, 20}; // RAII
-        test.append(30);
-        test.append(100);
-        for (auto x : test)
-        {
-            std::cout << x << std::endl;
-        }
-    }
 
-    {
-        sextl::vector<int> test = sextl::vector<int>({10, 20}, false); // NO RAII
-        test.append(30);
-        test.append(100);
-        for (auto x : test)
-        {
-            std::cout << x << std::endl;
-        }
-        test.free();
-    }
+    sextl::collection<int> collection;
+    collection.append(15);
+    std::cout << "collection: " << collection[0] << std::endl;
 
-    {
-        sextl::string s = "1234567890";
-        s.append(" test");
-        std::cout << s.raw() << std::endl;
-        std::cout << "String length: " << s.length() << std::endl;
-    }
+    sextl::string b = "TEST";
+    sextl::string str = "te";
 
+    sextl::string c = b + str;
+    std::cout << c.length() << std::endl;
+    std::cout << c.data() << std::endl;
+    std::cout << c[0] << std::endl;
     return 0;
 }

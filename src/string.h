@@ -1,64 +1,51 @@
-#pragma once
-#include <cstdlib>
-#include <cstring>
+#include <string>
 
-namespace sextl
-{
-    struct string
-    {
+#include "collection.h"
+
+#ifndef SEXTL_STRING_H
+#define SEXTL_STRING_H
+
+namespace sextl {
+    class string : public collection<char> {
     private:
-        size_t m_size;
-        char* m_string;
-        bool raii;
+        constexpr auto terminate() noexcept -> void {
+            this->m_data[this->m_size - 1] = '\0';
+        }
+
+        constexpr auto terminate(size_t size) noexcept -> void {
+            this->m_data[size] = '\0';
+        }
+
     public:
-        string(bool raii = true)
-        {
-            this->m_size = 0;
-            this->m_string = reinterpret_cast<char*>(malloc(sizeof(char)));
-            this->raii = raii;
-        }
+        string(const char *defaults)
+                : collection(defaults, strlen(defaults) + 1) {
+            this->terminate();
+        };
 
-        string(char* string, bool raii = true)
-        {
-            this->m_size = strlen(string) + 1;
-            this->m_string = reinterpret_cast<char*>(malloc(this->m_size));
-            strcpy_s(this->m_string, this->m_size, string);
-            this->raii = raii;
-        }
-
-        constexpr char* raw()
-        {
-            return this->m_string;
-        }
-
-        void append(const char* string)
-        {
-            char* cur_string = reinterpret_cast<char*>(malloc(this->m_size));
-            strcpy_s(cur_string, this->m_size, this->m_string);
-            size_t cur_size = this->m_size;
-            this->m_size = this->m_size + strlen(string);
-            this->m_string = reinterpret_cast<char*>(realloc(this->m_string, this->m_size));
-            strcpy_s(this->m_string, cur_size, cur_string);
-            memmove(this->m_string + (this->m_size - strlen(string) - 1), string, strlen(string) +1);
-            ::free(cur_string);
-        }
-
-        constexpr size_t length()
-        {
+        constexpr auto length() const noexcept -> size_t {
             return this->m_size - 1;
         }
 
-        void free()
-        {
-            ::free(this->m_string);
+        constexpr auto data() noexcept -> const char * {
+            return this->begin();
         }
 
-        ~string()
-        {
-            if (this->raii)
-            {
-                this->free();
-            }
+        auto concat(const string &a) noexcept -> string {
+            string res = *this;
+            res.resize(res.m_size + a.m_size - 1);
+            std::copy(&a.m_data[0], &a.m_data[a.m_size], &res.m_data[res.m_size - 1]);
+            res.m_size = res.m_size + a.m_size - 1;
+            return res;
+        }
+
+        string operator+(const string &a) {
+            return this->concat(a);
+        }
+
+        string operator+(const char *a) {
+            return this->concat(string(a));
         }
     };
 }
+
+#endif //SEXTL_STRING_H
