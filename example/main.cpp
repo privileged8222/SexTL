@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "../src/string.h"
+#include "../src/vector.h"
 #include "../src/collection.h"
 
 int main() {
@@ -8,6 +9,12 @@ int main() {
     sextl::collection<int> collection;
     collection.append(15);
     std::cout << "collection: " << collection[0] << std::endl;
+
+    sextl::vector<float> vec = {10.1f, 20.2f};
+    vec.clone().for_each([&](auto &e) {
+        e += 1.f;
+        std::cout << "Element: " << e << std::endl;
+    });
 
     sextl::string b = "TEST";
     sextl::string str = "te";

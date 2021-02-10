@@ -12,24 +12,40 @@ namespace sextl {
             this->m_data[this->m_size - 1] = '\0';
         }
 
-        constexpr auto terminate(size_t size) noexcept -> void {
+        constexpr auto terminate(const size_t size) noexcept -> void {
             this->m_data[size] = '\0';
         }
 
     public:
+        string()
+            : collection() { }
+
         string(const char *defaults)
                 : collection(defaults, strlen(defaults) + 1) {
             this->terminate();
         };
 
+        /**
+         * Returns the number of characters in the string (not including terminator)
+         * @return the length of the string
+         */
         constexpr auto length() const noexcept -> size_t {
             return this->m_size - 1;
         }
 
-        constexpr auto data() noexcept -> const char * {
+        /**
+         * Returns this string as a C-string
+         * @return beginning iterator (this as C-string)
+         */
+        constexpr auto data() noexcept -> iterator {
             return this->begin();
         }
 
+        /**
+         * Concatenates two strings together
+         * @param the other string to concat
+         * @return the new string
+         */
         auto concat(const string &a) noexcept -> string {
             string res = *this;
             res.resize(res.m_size + a.m_size - 1);

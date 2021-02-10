@@ -14,6 +14,8 @@ namespace sextl {
         T *m_data = nullptr;
 
     public:
+        using iterator = T *;
+
         collection(const std::initializer_list<T> defaults) {
             this->m_data = new T[defaults.size()];
             std::copy(defaults.begin(), defaults.end(), this->m_data);
@@ -37,18 +39,38 @@ namespace sextl {
             this->m_size = 0;
         }
 
+        /**
+         * Returns value of object at specific index
+         * @param index of object
+         * @return value of object at index
+         */
         constexpr auto get(const size_t index) const noexcept -> T {
             return this->m_data[index];
         }
 
-        constexpr auto set(const size_t index, const T val) noexcept -> void {
+        /**
+         * Sets an object at a specific index to a value
+         * @param index of object
+         * @param new value of object
+         * @return value of the new object
+         */
+        constexpr auto set(const size_t index, const T val) noexcept -> T {
             this->m_data[index] = std::move(val);
+            return this->m_data[index];
         }
 
+        /**
+         * Returns size of collection
+         * @return size of collection
+         */
         constexpr auto size() const noexcept -> size_t {
             return this->m_size;
         }
 
+        /**
+         * Changes size of collection (does not change objects)
+         * @param new size of collection
+         */
         constexpr auto resize(const size_t size) noexcept -> void {
             T *buf = new T[size];
             std::copy(&this->m_data[0], &this->m_data[size - 1], buf);
@@ -57,21 +79,38 @@ namespace sextl {
             delete[] buf;
         }
 
-        constexpr auto clear(const size_t size) noexcept -> void {
+        /**
+         * Clears the collection (does not resize)
+         */
+        constexpr auto clear() noexcept -> void {
             std::fill(&this->m_data[0], &this->m_data[this->m_size], 0);
             this->m_size = 0;
         }
 
-        constexpr auto append(const T data) noexcept -> void {
+        /**
+         * Adds an object to the collection
+         * @param new object
+         * @return the collection with the new object
+         */
+        constexpr auto append(const T data) noexcept -> collection<T> {
             this->m_size++;
             this->resize(this->m_size);
             this->m_data[this->m_size - 1] = data;
+            return *this;
         }
 
-        constexpr auto begin() noexcept -> T * {
+        /**
+         * Beginning iterator of the collection (pointer to first object)
+         * @return the beginning iterator
+         */
+        constexpr auto begin() noexcept -> iterator {
             return &this->m_data[0];
         }
 
+        /**
+         * End iterator of the collection (pointer to last object)
+         * @return the end iterator
+         */
         constexpr auto end() noexcept -> T * {
             return &this->m_data[this->m_size];
         }
