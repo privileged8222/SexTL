@@ -6,8 +6,10 @@
 
 int main() {
 
-    sextl::collection<int> collection;
-    collection.append(15);
+    sextl::collection<int> collection = {15};
+    collection.append(10);
+    std::cout << "collection: " << collection[0] << std::endl;
+    collection.remove(15);
     std::cout << "collection: " << collection[0] << std::endl;
 
     sextl::vector<float> vec = {10.1f, 20.2f};

@@ -100,6 +100,34 @@ namespace sextl {
         }
 
         /**
+         * Removes an object from the collection by value
+         * @param value to remove
+         * @return the collection without the object
+         */
+        constexpr auto remove(const T data) noexcept -> collection<T> {
+            T *buf = new T[this->m_size];
+            size_t buf_counter = 0;
+            for (auto i = 0; i < this->m_size; i++) {
+                if (this->m_data[i] != data) {
+                    buf[buf_counter] = this->m_data[i];
+                    buf_counter++;
+                }
+            }
+            std::copy(&buf[0], &buf[buf_counter + 1], this->m_data);
+            delete[] buf;
+            return *this;
+        }
+
+        /**
+         * Removes an object from the collection by index
+         * @param index to remove
+         * @return the collection without the object
+         */
+        constexpr auto remove(size_t index) noexcept -> collection<T> {
+            this->remove(this->m_data[index]);
+        }
+
+        /**
          * Beginning iterator of the collection (pointer to first object)
          * @return the beginning iterator
          */
@@ -111,7 +139,7 @@ namespace sextl {
          * End iterator of the collection (pointer to last object)
          * @return the end iterator
          */
-        constexpr auto end() noexcept -> T * {
+        constexpr auto end() noexcept -> iterator {
             return &this->m_data[this->m_size];
         }
 
