@@ -12,7 +12,7 @@ namespace sextl {
     private:
         class vec_stream {
         private:
-            T * m_elements = nullptr;
+            T *m_elements = nullptr;
             size_t m_size;
 
         public:
@@ -42,7 +42,7 @@ namespace sextl {
              * The number of elements in the current stream
              * @return number of elements
              */
-            constexpr auto count() const noexcept -> size_t {
+            [[nodiscard]] constexpr auto count() const noexcept -> size_t {
                 return this->m_size;
             }
 
@@ -51,7 +51,7 @@ namespace sextl {
              * @param predicate to filter with
              * @return a new vector the objects that matched the predicate
              */
-            constexpr auto filter(const std::function<bool(const T &)> predicate) const noexcept -> vec_stream {
+            [[nodiscard]] constexpr auto filter(const std::function<bool(const T &)> predicate) const noexcept -> vec_stream {
                 auto vec = vector<T>();
                 for (auto i = 0; i < this->m_size; i++) {
                     if (predicate(this->m_elements[i]))
@@ -66,8 +66,9 @@ namespace sextl {
              * @return the new collection
              */
             template<typename K>
-            constexpr auto collect() const noexcept -> K {
-                static_assert(std::is_base_of_v<sextl::collection<T>, K>, "Collect template parameter not derived from collection.");
+            [[nodiscard]] constexpr auto collect() const noexcept -> K {
+                static_assert(std::is_base_of_v<sextl::collection<T>, K>,
+                              "Collect template parameter not derived from collection.");
                 auto collection = K();
                 for (auto i = 0; i < this->m_size; i++)
                     collection.append(this->m_elements[i]);
@@ -104,7 +105,7 @@ namespace sextl {
          * Creates new vector with same objects
          * @return the new vector
          */
-        constexpr auto clone() const noexcept -> vector<T> {
+        [[nodiscard]] constexpr auto clone() const noexcept -> vector<T> {
             return vector<T>(*this);
         }
 
@@ -122,7 +123,7 @@ namespace sextl {
          * Returns a vec_stream for the current vector
          * @return vec_stream containing this vector objects
          */
-        constexpr auto stream() const noexcept -> vec_stream {
+        [[nodiscard]] constexpr auto stream() const noexcept -> vec_stream {
             return vec_stream(*this);
         }
     };

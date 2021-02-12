@@ -44,7 +44,7 @@ namespace sextl {
          * @param index of object
          * @return value of object at index
          */
-        constexpr auto get(const size_t index) const noexcept -> T {
+        [[nodiscard]] constexpr auto get(const size_t index) const noexcept -> T {
             return this->m_data[index];
         }
 
@@ -63,7 +63,7 @@ namespace sextl {
          * Returns size of collection
          * @return size of collection
          */
-        constexpr auto size() const noexcept -> size_t {
+        [[nodiscard]] constexpr auto size() const noexcept -> size_t {
             return this->m_size;
         }
 
@@ -131,7 +131,7 @@ namespace sextl {
          * Beginning iterator of the collection (pointer to first object)
          * @return the beginning iterator
          */
-        constexpr auto begin() noexcept -> iterator {
+        [[nodiscard]] constexpr auto begin() noexcept -> iterator {
             return &this->m_data[0];
         }
 
@@ -139,11 +139,11 @@ namespace sextl {
          * End iterator of the collection (pointer to last object)
          * @return the end iterator
          */
-        constexpr auto end() noexcept -> iterator {
+        [[nodiscard]] constexpr auto end() noexcept -> iterator {
             return &this->m_data[this->m_size];
         }
 
-        constexpr T &operator[](const size_t index) {
+        virtual constexpr T &operator[](const size_t index) {
             return this->m_data[index];
         }
 

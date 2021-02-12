@@ -3,6 +3,7 @@
 #include "../src/string.h"
 #include "../src/vector.h"
 #include "../src/collection.h"
+#include "../src/avec.h"
 
 struct p {};
 
@@ -38,9 +39,9 @@ int main() {
                     [](const auto &number) { return number <= 10; },
                     [](const auto &number) { std::cout << number << " Will be removed" << std::endl; }
             )
-            /*.filter([](const auto &number) {
+            .filter([](const auto &number) {
                 return number > 10;
-            })*/
+            })
             .collect<decltype(numbers)>();
 
     const auto outliers = numbers.stream()
@@ -49,6 +50,10 @@ int main() {
 
     std::cout << "Filtered: " << filtered_numbers.size() << std::endl;
     std::cout << "Outliers: " << outliers << std::endl;
+
+    sextl::avec<int, 3> avec = {10, 20, 30};
+    sextl::avec<int, 3> avec2 = {20, 30, 40};
+    std::cout << "Dist: " << avec.distance(avec2) << std::endl;
 
     return 0;
 }
