@@ -32,6 +32,15 @@ namespace sextl {
         }
 
         /**
+         * Returns the object at given index
+         * @param index of object
+         * @return object at index
+         */
+        [[nodiscard]] constexpr auto get(size_t index) const noexcept -> T {
+            return this->m_data[index];
+        }
+
+        /**
         * Beginning iterator of the array (pointer to first object)
         * @return the beginning iterator
         */

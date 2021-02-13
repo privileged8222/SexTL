@@ -28,7 +28,38 @@ namespace sextl {
             precise_double res = 0.f;
             for (auto i = 0; i < S; i++)
                 res += (this->m_data[i] - a.m_data[i]) * (this->m_data[i] - a.m_data[i]);
-            return std::sqrtl(res / (precise_double) S);
+            return std::sqrtl(res / static_cast<precise_double>(S));
+        }
+
+        /**
+         * Returns the dot product of the two avecs
+         * @param avec to compare to
+         * @return dot product of two avecs
+         */
+        [[nodiscard]] constexpr auto dot(const avec<T, S> &a) -> precise_double  {
+            precise_double res = 0.f;
+            for (auto i = 0; i < S; i++)
+                res += this->m_data[i] * a.m_data[i];
+            return res;
+        }
+
+        /**
+         * Returns the magnitude of the current avec
+         * @return magnitude of avec
+         */
+        [[nodiscard]] constexpr auto magnitude() -> precise_double {
+            return std::sqrtl(this->dot(*this));
+        }
+
+        /**
+         * Normalises the avec (unit vector in same direction)
+         * @return the current avec normalised
+         */
+        [[nodiscard]] constexpr auto normalise() -> avec<T, S> {
+            constexpr auto magnitude = this->magnitude();
+            for (auto i = 0; i < S; i++)
+                this->m_data[i] = this->m_data[i] / magnitude;
+            return *this;
         }
     };
 }

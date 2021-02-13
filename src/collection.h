@@ -148,7 +148,7 @@ namespace sextl {
         }
 
         virtual ~collection() {
-            delete this->m_data;
+            delete[] this->m_data;
         }
     };
 }

@@ -18,17 +18,15 @@ namespace sextl {
         public:
             vec_stream(const vector<T> &vec) {
                 this->m_elements = new T[vec.size()];
-                for (auto i = 0; i < vec.size(); i++) {
+                for (auto i = 0; i < vec.size(); i++)
                     this->m_elements[i] = vec.get(i);
-                }
                 this->m_size = vec.size();
             }
 
             vec_stream(const std::initializer_list<T> elems) {
                 this->m_elements = new T[elems.size()];
-                for (auto i = 0; i < elems.size(); i++) {
+                for (auto i = 0; i < elems.size(); i++)
                     this->elements[i] = *(&elems.begin() + i);
-                }
                 this->m_size = elems.size();
             }
 
