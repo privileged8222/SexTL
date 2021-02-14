@@ -100,6 +100,39 @@ namespace sextl {
                 : collection<T>(defaults) {}
 
         /**
+         * Constructs a vector from an iterator and optional predicate
+         * @param beginning iterator
+         * @param end iterator
+         * @param (optional) predicate
+         * @return new vector with objects that matched predicate
+         */
+        [[nodiscard]] static constexpr auto comprehend(const T *begin, const T *end, std::function<bool(const T&)> pred = [](auto&){ return true; }) noexcept -> vector<T> {
+            auto res = vector<T>();
+            for (auto it = begin; it < end; it++) {
+                if (pred(*it))
+                    res.append(*it);
+            }
+            return res;
+        }
+
+        /**
+         * Constructs a vector from an iterator and optional predicate
+         * @param beginning iterator
+         * @param number of elements
+         * @param (optional) predicate
+         * @return new vector with objects that matched predicate
+         */
+        [[nodiscard]] static constexpr auto comprehend(const T *begin, const size_t size,std::function<bool(const T&)> pred = [](auto&){ return true; }) noexcept -> vector<T> {
+            auto res = vector<T>();
+            constexpr auto end = begin + size;
+            for (auto it = begin; it < end; it++) {
+                if (pred(*it))
+                    res.append(*it);
+            }
+            return res;
+        }
+
+        /**
          * Creates new vector with same objects
          * @return the new vector
          */

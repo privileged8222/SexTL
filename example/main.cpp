@@ -5,7 +5,8 @@
 #include "../src/collection.h"
 #include "../src/avec.h"
 
-struct p {};
+struct p {
+};
 
 
 int main() {
@@ -45,7 +46,7 @@ int main() {
             .collect<decltype(numbers)>();
 
     const auto outliers = numbers.stream()
-            .filter([](const auto &number) { return number < 4 || number > 10; } )
+            .filter([](const auto &number) { return number < 4 || number > 10; })
             .count();
 
     std::cout << "Filtered: " << filtered_numbers.size() << std::endl;
@@ -54,6 +55,13 @@ int main() {
     sextl::avec<int, 3> avec = {10, 20, 30};
     sextl::avec<int, 3> avec2 = {20, 30, 40};
     std::cout << "Dist: " << avec.distance(avec2) << std::endl;
+
+    const auto newvec = sextl::vector<int>::comprehend(
+            numbers.begin(),
+            numbers.end(),
+            [](const auto &e) { return e >= 3; }
+    );
+    std::cout << newvec.get(0);
 
     return 0;
 }
