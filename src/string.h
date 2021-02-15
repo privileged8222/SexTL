@@ -47,11 +47,14 @@ namespace sextl {
          * @return the new string
          */
         [[nodiscard]] auto concat(const string &a) noexcept -> string {
-            string res = *this;
-            res.resize(res.m_size + a.m_size - 1);
-            std::copy(&a.m_data[0], &a.m_data[a.m_size], &res.m_data[res.m_size - 1]);
-            res.m_size = res.m_size + a.m_size - 1;
-            return res;
+            this->resize(this->m_size + a.m_size);
+            std::copy(a.begin(), a.end(), &this->m_data[this->m_size - 1]);
+            this->m_size = this->m_size + a.m_size;
+            return *this;
+        }
+
+        string operator<<(const string &a) {
+            return this->concat(a);
         }
 
         string operator+(const string &a) {

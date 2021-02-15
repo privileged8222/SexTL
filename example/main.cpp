@@ -61,7 +61,11 @@ int main() {
             numbers.end(),
             [](const auto &e) { return e >= 3; }
     );
-    std::cout << newvec.get(0);
+    std::cout << newvec.get(0) << std::endl;
 
+    sextl::string s1 = "hlloe";
+    s1 << "goodbye";
+
+    std::cout << s1.data() << std::endl;
     return 0;
 }

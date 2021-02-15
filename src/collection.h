@@ -49,6 +49,19 @@ namespace sextl {
         }
 
         /**
+         * Returns the index of an object value in the collection
+         * @param object value to find
+         * @return first index of that object (or -1 if not found)
+         */
+        [[nodiscard]] constexpr auto find(const T val) const noexcept -> std::int64_t {
+            for (auto i = 0; i < this->m_size; i++) {
+                if (this->m_data[i] == val)
+                    return i;
+            }
+            return -1;
+        }
+
+        /**
          * Sets an object at a specific index to a value
          * @param index of object
          * @param new value of object
@@ -131,7 +144,7 @@ namespace sextl {
          * Beginning iterator of the collection (pointer to first object)
          * @return the beginning iterator
          */
-        [[nodiscard]] constexpr auto begin() noexcept -> iterator {
+        [[nodiscard]] constexpr auto begin() const noexcept -> iterator {
             return &this->m_data[0];
         }
 
@@ -139,7 +152,7 @@ namespace sextl {
          * End iterator of the collection (pointer to last object)
          * @return the end iterator
          */
-        [[nodiscard]] constexpr auto end() noexcept -> iterator {
+        [[nodiscard]] constexpr auto end() const noexcept -> iterator {
             return &this->m_data[this->m_size];
         }
 

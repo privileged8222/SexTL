@@ -41,6 +41,19 @@ namespace sextl {
         }
 
         /**
+         * Returns the index of an object value in the array
+         * @param object value to find
+         * @return first index of that object (or -1 if not found)
+         */
+        [[nodiscard]] constexpr auto find(const T val) const noexcept -> std::int64_t {
+            for (auto i = 0; i < S; i++) {
+                if (this->m_data[i] == val)
+                    return i;
+            }
+            return -1;
+        }
+
+        /**
         * Beginning iterator of the array (pointer to first object)
         * @return the beginning iterator
         */
